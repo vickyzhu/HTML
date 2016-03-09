@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>timeout demo</title>
+</head>
+<body>
+<script type="text/javascript">
+	function set(key,v){
+		var curTime = new Date().getTime();
+		localStorage.setItem(key,JSON.stringify({data:v,time:curTime}));
+	}
+	function get(key,exp){
+		//exp单位毫秒
+		var data = localStorage.getItem(key);
+		var dataObj = JSON.parse(data);
+		if(new Date().getTime() - dataObj.time>exp){
+			console.log("expires");
+		}else{
+			console.log("data="+dataObj.data);
+		}
+	}
+</script>
+<!-- 测试 -->
+<!-- console  → set('img','img');  →  get('img',1000); -->
+</body>
+</html>
