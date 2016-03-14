@@ -3,12 +3,12 @@
 
 #News Reader 新闻阅读器应用程序
 
-使用H5的本地存储、Web SQL以及application cache存储方式
+<h3>使用H5的本地存储、Web SQL以及application cache存储方式</h3>
  
    online  在线版本
    offline 离线版本
   
-    <h2 >  功能介绍：</h2>
+  <h2 >  功能介绍：</h2>
     <ul>
     <li> 1 读取服务器的RSS</li>
   
