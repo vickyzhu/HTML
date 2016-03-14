@@ -1,8 +1,8 @@
 #HTML storage
-  html存储的知识点总结以及小应用
+  <blockquote>html存储的知识点总结以及小应用</blockquote>
 
 #News Reader 新闻阅读器应用程序
-
+<blockquote>
 使用H5的本地存储、Web SQL以及application cache存储方式
  
    online  在线版本
@@ -15,3 +15,4 @@
 <li>点击标题进入详情页</li>
 <li>刷新新闻等</li>
 </ul>
+</blockquote>
