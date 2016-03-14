@@ -5,15 +5,16 @@
 
 使用H5的本地存储、Web SQL以及application cache存储方式
  
-  <h1 style="border:1px solid red;"> online  在线版本</h1>
+   online  在线版本
    offline 离线版本
   
-      功能介绍：
+    <h2>  功能介绍：</h2>
+    <ul>
+    <li> 1 读取服务器的RSS</li>
   
-     1 读取服务器的RSS
+    <li> 2 将文章显示在主页</li>
   
-     2 将文章显示在主页
+    <li> 3 点击标题进入详情页</li>
   
-     3 点击标题进入详情页
-  
-     4 刷新新闻等
+    <li> 4 刷新新闻等</li>
+     </ul>
