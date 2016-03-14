@@ -5,7 +5,7 @@
 
 使用H5的本地存储、Web SQL以及application cache存储方式
  
-   online  在线版本
+  <h1 style="border:1px solid red;"> online  在线版本</h1>
    offline 离线版本
   
       功能介绍：
