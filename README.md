@@ -3,7 +3,7 @@
 
 #News Reader 新闻阅读器应用程序
 <blockquote>
-使用H5的本地存储、Web SQL以及application cache存储方式
+使用H5的本地存储、Web SQL以及application cache存储方式<br/>
  
 online  在线版本
 offline 离线版本
