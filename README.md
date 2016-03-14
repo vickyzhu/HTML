@@ -8,13 +8,10 @@
    online  在线版本
    offline 离线版本
   
-<h2 >  功能介绍：</h2>
+<h2 style="border-left:2px solid red"> 功能介绍：</h2>
 <ul>
-<li> 1 读取服务器的RSS</li>
-  
-<li> 2 将文章显示在主页</li>
-  
-<li> 3 点击标题进入详情页</li>
-  
-<li> 4 刷新新闻等</li>
+<li>  读取服务器的RSS</li>
+<li> 将文章显示在主页</li>
+<li>点击标题进入详情页</li>
+<li>刷新新闻等</li>
 </ul>
