@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <script>
+        var db;
+        var arrayKey = [];
+        var openRequest;
+        var lastCursor;
+        var indexedDB = window.indexedDB || window.webkitIndexDB || window.mozIndexDB ||window.msIndexedDB;
+        var dbName = "person";
+        var tableName = "testTable";
+        function init(){
+
+            openRequest = indexedDB.open(dbName,2);
+            openRequest.onupgradeneeded = function(e){
+                console.log("running onupgradeneeded");
+                var thisDb = e.target.result;
+                console.log("thisDb.version:"+thisDb.version);
+                if(!thisDb.objectStoreNames.contains(tableName)){
+                    console.log("I need to create the objectstore");
+                    var objectStore = thisDb.createObjectStore(tableName,{keyPath:"id",atoIncrement:true});
+                    objectStore.createIndex("name","name",{unique:false});
+                    objectStore.createIndex("phone","phone",{unique:false});
+                }
+            }
+
+            openRequest.onsuccess = function (e) {
+                db = e.target.result;
+                console.log("db version:"+db.version);
+
+                db.onerror = function(event){
+                    alert("database error:"+event.target.errorCode);
+                    console.dir(event.target);
+                }
+                if(db.objectStoreNames.contains(tableName)){
+                    console.log("contains table: "+tableName);
+                    var transaction = db.transaction([tableName],"readwrite");
+                    transaction.oncomplete = function(event){
+                        console.log("all done");
+                    }
+
+                    transaction.onerror = function(event){
+                        console.dir(event);
+                    }
+
+                    var objectStore = transaction.objectStore(tableName);//得到表里的objectStore对象
+                    objectStore.openCursor().onsuccess = function(event){ //使用游标遍历
+                        var cursor = event.target.result;
+                        if(cursor){
+                            console.log(cursor.key);
+                            console.dir(cursor.value);
+                            render({key:cursor,name:cursor.value["name"],phone:cursor.value["phone"],address:cursor.value["address"]})
+                            //  flag++
+                            lastCursor = cursor.key;
+                            cursor.continue();
+                        }else{
+                            console.log("done with cursor");
+                        }
+                    };
+
+                    objectStore.openCursor().onerror = function(event){
+                        console.dir(event);
+                    }
+
+                };
+            }
+
+            openRequest.onerror = function(event){
+                console.dir(event);
+            }
+
+//            add new record
+            document.querySelector("#add").addEventListener("click",function(){
+                var name = document.querySelector("#name").value;
+                var phone = document.querySelector("#phone").value;
+                var address = document.querySelector("#address").value;
+                var person = {"name":name,"phone":phone,"address":address};
+
+                var transation = db.transaction([tableName],"readwrite");
+
+                transation.oncomplete = function(event){
+                    console.log("transation  complete");
+                }
+                transation.onerror = function(event){
+                    console.dir("add error: "+event.target);
+                }
+                var objectStore = transation.objectStore(tableName);
+                console.log("person[0]:"+person);
+                objectStore.add(person,1);
+                objectStore.openCursor().onsuccess = function(event){
+                    cursor = event.target.result;
+                    var key;
+                    if(lastCursor == null){
+                        key = cursor.key;
+                        lastCursor = key;
+                    }else{
+                        key = ++lastCursor;
+                    }
+                    console.log("key:"+key);
+                    render({key:key,name:name,phone:phone,address:address});
+                    console.log("success add new record!key:"+key);
+                    console.dir(perosn);
+                }
+
+            });
+
+//            删除数据库
+            document.querySelector("#deleteDB").addEventListener("click",function() {
+                var deleteDB = indexedDB.deleteDatabase(dbName);
+
+                var content = document.querySelector("#content");
+                while(content.firstChild){
+                    content.removeChild(content.firstChild);
+                }
+                deleteDB.onsuccess = function(event){
+                    console.log("success delete database");
+                }
+
+                deleteDB.onerror = function(event){
+                    console.dir(event.target);
+                }
+            })
+      }
+
+      window.addEventListener("DOMContentLoaded",init,false);
+    </script>
+    </head>
+    <body>
+        <form action="" method="">
+            姓名：<input type="text" id="name">  电话：<input type="text" id="phone">  地址：<input type="text" id="address"> <input type="button" value="添加" id="add">&nbsp; <input type="button" value="删除数据库" id="deleteDB"><br>
+            <br>姓名：<input type="text"> <input type="button" value="查询" id="seletBtn">
+            <br><br>
+            <table id="content">
+                <tr><th>姓名</th><th>电话</th><th>地址</th><th>删除</th></tr>
+
+            </table>
+        </form>
+    </body>
+</html>
